@@ -1,4 +1,5 @@
 
+
 function type_of_product() {
     var type_product = document.getElementById('type_product');
     var text_type = type_product.options[type_product.selectedIndex].text;
@@ -7,7 +8,7 @@ function type_of_product() {
 
 function get_data() {
     var elements = document.getElementById("form_products").elements;
-    
+
 
     var p_id = document.getElementById('p_id').value;
     var p_name = document.getElementById('p_name').value;
@@ -27,11 +28,27 @@ function print_html() {
         const contenedor = document.createElement('div');
         contenedor.innerHTML = `${key}: ${value}`;
         document.body.appendChild(contenedor);
-        localStorage.setItem(`${key}`,  `${value}`);
+        localStorage.setItem(`${key}`, `${value}`);
 
     }
 
 }
 let jsonData = JSON.stringify(get_data());
 localStorage.setItem('jsonData', jsonData);
-console.log( localStorage.getItem('jsonData'));
+
+$.getJSON( "https://jsonplaceholder.typicode.com/todos", function( data ) {
+    var items = [];
+    $.each( data, function( key, val ) {
+        
+      items.push( `<li> id=${key},  value =${val.title} </li>` );
+    });
+
+    $( "<ul/>", {
+      "class": "my-new-list",
+      html: items.join( "" )
+    }).appendTo( "body" );
+  });
+
+fetch('https://jsonplaceholder.typicode.com/todos')
+  .then(response => response.json())
+  .then(data => console.log(data));
